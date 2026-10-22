@@ -2,7 +2,7 @@
  * pi-session-hub
  *
  * A cross-harness session hub for Pi. One list, one search box, every harness:
- * Pi, Claude Code, Codex, OpenCode, Crush and JCode.
+ * Pi, Claude Code, Codex, OpenCode, Crush, JCode and Antigravity CLI.
  *
  * Two rules this extension never breaks:
  *  1. Nothing outside `~/.pi/agent/pi-session-hub/` is ever written.
@@ -814,7 +814,7 @@ export default function sessionHub(pi: ExtensionAPI) {
     name: "session_hub_search",
     label: "Session Hub Search",
     description:
-      "Search the local index of coding-agent sessions across Pi, Claude Code, Codex, OpenCode, Crush and JCode. " +
+      "Search the local index of coding-agent sessions across Pi, Claude Code, Codex, OpenCode, Crush, JCode and Antigravity CLI (agy). " +
       "Use this when the user asks which session they worked on something in, or wants to find prior context.",
     promptSnippet: "Search past sessions across all coding harnesses",
     promptGuidelines: [

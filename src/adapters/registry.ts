@@ -15,6 +15,7 @@ import { CodexAdapter } from "./codex.ts";
 import { OpenCodeAdapter } from "./opencode.ts";
 import { CrushAdapter } from "./crush.ts";
 import { JCodeAdapter } from "./jcode.ts";
+import { AgyAdapter } from "./agy.ts";
 
 export class AdapterRegistry {
   private readonly adapters = new Map<HarnessId, SessionAdapter>();
@@ -28,6 +29,7 @@ export class AdapterRegistry {
       new OpenCodeAdapter(home),
       new CrushAdapter(home),
       new JCodeAdapter(home),
+      new AgyAdapter(home),
     ]) {
       this.adapters.set(adapter.id, adapter);
     }

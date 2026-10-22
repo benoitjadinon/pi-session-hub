@@ -7,6 +7,7 @@
  */
 
 import { safeStat } from "./adapters/util.ts";
+import { pathToFileURL } from "node:url";
 
 type SqliteModule = typeof import("node:sqlite");
 
@@ -107,7 +108,7 @@ function message(err: unknown): string {
 /**
  * Open another harness's database strictly read-only. Writes are refused loudly.
  */
-export async function openReadOnly(file: string): Promise<ReadOnlyDb | null> {
+export async function openReadOnly(file: string, strict = false): Promise<ReadOnlyDb | null> {
   if (!safeStat(file)) return null;
   let mod: SqliteModule;
   try {
@@ -118,8 +119,15 @@ export async function openReadOnly(file: string): Promise<ReadOnlyDb | null> {
 
   let db: InstanceType<SqliteModule["DatabaseSync"]> | null = null;
   try {
-    db = new mod.DatabaseSync(file, { readOnly: true });
+    // A normal read-only open can CREATE -wal/-shm sidecars for an idle WAL
+    // database. Strict callers use immutable mode only when no WAL exists;
+    // live databases must retain normal WAL visibility. Never retry writable.
+    const source = strict && !safeStat(`${file}-wal`)
+      ? `${pathToFileURL(file).href}?immutable=1`
+      : file;
+    db = new mod.DatabaseSync(source, { readOnly: true });
   } catch {
+    if (strict) return null;
     // WAL databases can refuse a read-only open when the -shm file is missing
     // and cannot be created. Retry without the hint; we only ever issue SELECTs.
     try {

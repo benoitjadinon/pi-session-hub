@@ -1,7 +1,7 @@
 {
   "name": "pi-session-hub",
   "version": "0.2.0",
-  "description": "Cross-harness session hub for Pi: browse, search and continue sessions from Claude Code, Codex, OpenCode, Crush and JCode without leaving your chat.",
+  "description": "Cross-harness session hub for Pi: browse, search and continue sessions from Claude Code, Codex, OpenCode, Crush, JCode and Google Antigravity CLI without leaving your chat.",
   "type": "module",
   "license": "MIT",
   "author": "Gateton",
@@ -16,7 +16,9 @@
     "codex",
     "opencode",
     "crush",
-    "jcode"
+    "jcode",
+    "antigravity",
+    "agy"
   ],
   "repository": {
     "type": "git",
@@ -52,8 +54,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node test/acceptance.mjs",
+    "test": "node test/agy.mjs && node test/acceptance.mjs",
+    "test:agy": "node test/agy.mjs",
     "test:smoke": "node test/smoke.mjs",
-    "prepublishOnly": "node test/acceptance.mjs"
+    "prepublishOnly": "npm test"
   }
 }

@@ -11,7 +11,8 @@ export type HarnessId =
   | "codex"
   | "opencode"
   | "crush"
-  | "jcode";
+  | "jcode"
+  | "agy";
 
 export const HARNESS_ORDER: HarnessId[] = [
   "pi",
@@ -20,6 +21,7 @@ export const HARNESS_ORDER: HarnessId[] = [
   "opencode",
   "crush",
   "jcode",
+  "agy",
 ];
 
 export const HARNESS_LABEL: Record<HarnessId, string> = {
@@ -29,6 +31,7 @@ export const HARNESS_LABEL: Record<HarnessId, string> = {
   opencode: "OpenCode",
   crush: "Crush",
   jcode: "JCode",
+  agy: "Antigravity CLI",
 };
 
 /**

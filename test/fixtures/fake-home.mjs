@@ -10,6 +10,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { openIndexDb } from "../../src/sqlite.ts";
+import { buildAgy } from "./agy.mjs";
 
 const UUID = "11111111-2222-3333-4444-555555555555";
 const PROJECT = "/srv/work/acme-api";
@@ -284,5 +285,6 @@ export async function buildFakeHome(home) {
   ]);
   oc.close();
 
+  await buildAgy(home, PROJECT);
   return { home, project: PROJECT, uuid: UUID };
 }

@@ -61,6 +61,7 @@ function fingerprintStores() {
     path.join(home, ".codex", "sessions"),
     path.join(home, ".pi", "agent", "sessions"),
     path.join(home, ".jcode", "sessions"),
+    path.join(home, ".gemini", "antigravity-cli"),
     path.join(home, ".crush"),
     path.join(home, ".local", "share", "opencode"),
   ];
@@ -713,8 +714,8 @@ section("11. Portability: a home this project has never seen");
   const foreignDetections = await foreignRegistry.detectAll();
   const detected = foreignDetections.filter((d) => d.status === "available");
   check(
-    "all six harnesses are detected in a foreign home",
-    detected.length === 6,
+    "all harnesses are detected in a foreign home",
+    detected.length === HARNESS_ORDER.length,
     foreignDetections.map((d) => `${d.harness}:${d.status}`).join(" "),
   );
   check(
@@ -727,10 +728,10 @@ section("11. Portability: a home this project has never seen");
   const foreignIndex = await openIndex(foreignIndexPath);
   const foreignScan = await scan(foreignIndex, foreignRegistry, { force: true });
   check("foreign home indexes cleanly", foreignScan.errors.length === 0, JSON.stringify(foreignScan.errors));
-  check("foreign home indexed six sessions", foreignScan.total === 6, `${foreignScan.total}`);
+  check("foreign home indexed every harness", foreignScan.total === HARNESS_ORDER.length, `${foreignScan.total}`);
   check(
     "every harness contributed one session to the foreign index",
-    harnessCounts(foreignIndex).length === 6,
+    harnessCounts(foreignIndex).length === HARNESS_ORDER.length,
     JSON.stringify(harnessCounts(foreignIndex)),
   );
 
@@ -768,6 +769,7 @@ section("11. Portability: a home this project has never seen");
     ["claude-code", "partial index on created_at"],
     ["codex", "backpressure"],
     ["jcode", "two cohesive modules"],
+    ["agy", "least recently used eviction"],
     ["crush", "exponential backoff"],
     ["opencode", "covering index on title"],
   ];

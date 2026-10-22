@@ -3,7 +3,7 @@
 
 # pi-session-hub
 
-**One list for every coding-agent session on your machine. Browse, search and continue sessions from Claude Code, Codex, OpenCode, Crush and JCode without leaving Pi.**
+**One list for every coding-agent session on your machine. Browse, search and continue sessions from Claude Code, Codex, OpenCode, Crush, JCode and Google Antigravity CLI (agy) without leaving Pi.**
 
 [![npm](https://img.shields.io/npm/v/pi-session-hub?label=npm)](https://www.npmjs.com/package/pi-session-hub)
 [![Pi extension](https://img.shields.io/badge/Pi-extension-19c7d4)](https://github.com/earendil-works/pi-coding-agent)
@@ -14,7 +14,7 @@
 
 `pi-session-hub` adds a cross-harness session browser to Pi:
 
-- **See every agent in one list**: Pi, Claude Code, Codex, OpenCode, Crush and JCode sessions, each row labelled with its harness, project, model and recency.
+- **See every agent in one list**: Pi, Claude Code, Codex, OpenCode, Crush, JCode and Antigravity CLI sessions, each row labelled with its harness, project, model and recency.
 - **Continue work that started elsewhere**: press `Enter` and the selected session's conversation is loaded into the current chat as a tiered, budgeted context package, so the next thing you type already has it.
 - **Read without spending tokens**: `v` opens the full recovered transcript in a read-only viewer for free.
 - **Reopen the original tool when you want to**: `n` runs the session's own resume command, with the exact command and its verification basis shown before anything is launched.
@@ -137,7 +137,7 @@ Press `?` inside the hub for this list.
 | `?` | Keyboard reference |
 | `Esc`, `q` | Close |
 
-Harness markers are plain Unicode, not emoji: `π` Pi, `✻` Claude Code, `⬡` Codex, `⌘` OpenCode, `❯` Crush, `◆` JCode. Set `PI_SESSION_HUB_ASCII=1` for plain ASCII markers on terminals whose font has no symbol coverage.
+Harness markers are plain Unicode, not emoji: `π` Pi, `✻` Claude Code, `⬡` Codex, `⌘` OpenCode, `❯` Crush, `◆` JCode, `A` Antigravity CLI. Set `PI_SESSION_HUB_ASCII=1` for plain ASCII markers on terminals whose font has no symbol coverage.
 
 ## How much context `Enter` loads
 
@@ -183,9 +183,9 @@ The only writable path is `~/.pi/agent/pi-session-hub/`. Every harness store is 
 
 ### External sessions are never disguised as Pi sessions
 
-A Claude, Codex, OpenCode, Crush or JCode conversation is **never** converted into a Pi session file that pretends Pi created it. There are exactly two paths:
+A Claude, Codex, OpenCode, Crush, JCode or Antigravity CLI conversation is **never** converted into a Pi session file that pretends Pi created it. There are exactly two paths:
 
-- **Native resume** (`n`): reopen the session in its own harness, using its own command. Every command states its verification basis in the confirmation dialog (`cli-help` means the flag is documented in that tool's own `--help`). All six harnesses have one. The single exception is Claude sub-agent transcripts, whose ids `claude --resume` does not accept, so the hub refuses rather than handing you a command that would fail.
+- **Native resume** (`n`): reopen the session in its own harness, using its own command. Every command states its verification basis in the confirmation dialog (`cli-help` means the flag is documented in that tool's own `--help`). All seven harnesses have one. The single exception is Claude sub-agent transcripts, whose ids `claude --resume` does not accept, so the hub refuses rather than handing you a command that would fail.
 - **Cross-harness handoff** (`h`, or `Enter` for context loading): the conversation arrives in a new message explicitly labelled as imported, naming the source harness, session id and path.
 
 Context loading is generated locally and deterministically. No LLM, no network, no uploading transcripts anywhere. Fields the source format cannot supply are written as `not available` rather than guessed.
@@ -200,6 +200,9 @@ Context loading is generated locally and deterministically. No LLM, no network, 
 | OpenCode | `~/.local/share/opencode/opencode.db` | SQLite | `opencode --session <id>` |
 | Crush | `~/.crush/crush.db` | SQLite | `crush --session <id>` |
 | JCode | `~/.jcode/sessions/*.json` | JSON | `jcode --resume <id>` |
+| Google Antigravity CLI (`agy`) | `~/.gemini/antigravity-cli/conversation_summaries.db` + `conversations/*.db` | SQLite + protobuf | `agy --conversation <id>` |
+
+Antigravity support targets the **agy CLI store**, not the Antigravity IDE or ACP store. It indexes conversation titles, workspace paths, previews, and user/assistant prose, and extracts planner tool-call names and recognized shell commands. Unsupported/malformed steps are omitted with a fidelity note; tool results, model, creation time, and changed/read files are not currently recovered. Missing transcript databases retain summary metadata without inventing messages. Indexing scans at most 400 steps per conversation; context loading scans at most 4,000.
 
 Each harness gets its own adapter. A missing, empty or unreadable store degrades to a specific message ("no store at ...", "cannot read ...") instead of an empty list, and one broken adapter never takes down the others.
 
@@ -262,7 +265,7 @@ node test/smoke.mjs        # exercise every adapter against real stores
 node test/acceptance.mjs   # full requirement suite
 ```
 
-The acceptance suite runs against real stores and against a synthetic foreign home, and asserts among other things: index counts equal detected counts, FTS rows equal session rows with no orphans, uids are unique, the context stays inside its budget regardless of session length, the handoff contains every required field, unavailable fields are reported honestly, all six adapters detect, index, search and read a home this project has never seen, and no external store file is modified.
+The acceptance suite runs against real stores and against a synthetic foreign home, and asserts among other things: index counts equal detected counts, FTS rows equal session rows with no orphans, uids are unique, the context stays inside its budget regardless of session length, the handoff contains every required field, unavailable fields are reported honestly, all seven adapters detect, index, search and read a home this project has never seen, and no external store file is modified.
 
 `test/tools/screen.py` reconstructs a screen from a raw ANSI capture, and `test/tools/png.py` renders one to PNG with font fallback. Both exist because stripping escape codes from a full-screen TUI produces a misleading picture.
 

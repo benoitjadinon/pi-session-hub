@@ -1,6 +1,6 @@
 ---
 name: session-hub
-description: Search and reuse past coding-agent sessions across harnesses (Pi, Claude Code, Codex, OpenCode, Crush, JCode). Use when the user asks which session they worked on something in, wants to find prior context, wants to continue work from another tool, or asks "where did I do X" / "in what chat did I fix Y".
+description: Search and reuse past coding-agent sessions across harnesses (Pi, Claude Code, Codex, OpenCode, Crush, JCode, Google Antigravity CLI/agy). Use when the user asks which session they worked on something in, wants to find prior context, wants to continue work from another tool, or asks "where did I do X" / "in what chat did I fix Y".
 ---
 
 # Session Hub
@@ -39,7 +39,11 @@ reads the transcript for free, `o` switches Pi to a Pi session, `n` reopens it i
 its original tool. The hub is a full-screen replacement UI; `?` shows the keyboard
 reference.
 
-Harness ids: `pi`, `claude-code`, `codex`, `opencode`, `crush`, `jcode`.
+Harness ids: `pi`, `claude-code`, `codex`, `opencode`, `crush`, `jcode`, `agy`.
+
+`agy` reads the Google Antigravity CLI store, not the IDE/ACP store. Unsupported
+steps and unavailable transcript fields are reported in fidelity notes. Native
+resume uses `agy --conversation <id>` after confirmation.
 
 ## Search query syntax
 

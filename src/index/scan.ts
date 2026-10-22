@@ -52,7 +52,7 @@ export interface ScanOptions {
  * Harnesses whose sessions live in one database. Their fingerprint is the
  * database file itself, so a full re-read is the only correct behaviour.
  */
-const DB_BACKED: HarnessId[] = ["opencode", "crush"];
+const DB_BACKED: HarnessId[] = ["opencode", "crush", "agy"];
 
 export async function scan(
   handle: IndexHandle,

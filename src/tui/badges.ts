@@ -36,6 +36,7 @@ const BADGES: Record<HarnessId, Badge> = {
   opencode: { icon: "\u2318", color: "mdLink" },
   crush: { icon: "\u276f", color: "mdQuote" },
   jcode: { icon: "\u25c6", color: "mdCode" },
+  agy: { icon: "A", color: "accent" },
 };
 
 /**
@@ -50,6 +51,7 @@ const ASCII_BADGES: Record<HarnessId, Badge> = {
   opencode: { icon: "O", color: "mdLink" },
   crush: { icon: "R", color: "mdQuote" },
   jcode: { icon: "J", color: "mdCode" },
+  agy: { icon: "A", color: "accent" },
 };
 
 let asciiMode: boolean | null = null;
@@ -83,6 +85,8 @@ export function shortLabel(harness: HarnessId): string {
       return "cr";
     case "jcode":
       return "jc";
+    case "agy":
+      return "ag";
     default:
       return "??";
   }
